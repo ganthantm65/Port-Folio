@@ -62,7 +62,7 @@ const PortFolio = () => {
   ]
 
   return (
-    <div className='w-screen min-h-screen flex flex-col items-center justify-between bg-gradient-to-br from-slate-900 to-indigo-900 overflow-y-auto gap-20'>
+    <div className='w-screen min-h-screen flex flex-col items-center font-sans justify-between bg-gradient-to-br from-slate-900 to-indigo-900 overflow-y-auto gap-20'>
       <header className='w-full h-20 fixed flex flex-col flex-row items-center bg-slate-900 justify-between px-6 py-4 z-50 '>
         <h1 className='text-white text-2xl font-bold'>Port Folio</h1>
         <ul className={`text-white text-xl hidden md:flex flex-col md:flex-row items-center justify-center gap-3 md:gap-5 mt-3 md:mt-0 `}>
