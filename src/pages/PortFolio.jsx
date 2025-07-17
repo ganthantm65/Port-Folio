@@ -39,10 +39,10 @@ const PortFolio = () => {
       features: ['Real-time tracking', 'Advanced reporting', 'User management', 'Analytics dashboard']
     },
     {
-      title: 'Retail Billing Web App',
+      title: 'Inventory and Retail Management',
       description: 'Modern retail billing solution with inventory management, invoice generation, and customer management features.',
       tech: ['React', 'Spring Boot', 'PostgreSQL'],
-      github: 'https://github.com/ganthantm65/retail-blling-app',
+      github: 'https://github.com/ganthantm65/inventory-retail-management',
       features: ['Inventory management', 'Invoice generation', 'Customer database', 'Sales analytics']
     },
     {
