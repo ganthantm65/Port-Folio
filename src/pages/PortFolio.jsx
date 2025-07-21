@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Database, GithubIcon, Linkedin, Mail, Monitor, Server, ToolCaseIcon, Menu, X, ChevronDown } from 'lucide-react'
+import SkillCard from '../components/SkillCard'
 
 const MyPhoto = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"
 const about = "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop"
