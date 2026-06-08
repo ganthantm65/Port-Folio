@@ -1,361 +1,312 @@
-import React, { useState, useEffect } from 'react'
-import { Database, GithubIcon, Linkedin, Mail, Monitor, Server, ToolCaseIcon, Menu, X, ChevronDown } from 'lucide-react'
-import SkillCard from '../components/SkillCard'
-import MyPhoto from '../assets/images/me.jpg'
-import about from '../assets/images/about.png'
-
+import React, { useState, useEffect } from 'react';
+import {
+  Database, GithubIcon, Linkedin, Mail, Monitor, Server, Wrench,
+  Menu, X, ChevronDown, Code, Layers, Zap, Award, Briefcase,
+  ExternalLink, User, MapPin, Calendar, Star, ArrowRight
+} from 'lucide-react';
+import SkillCard from '../components/SkillCard.jsx';
+import ServiceCard from '../components/ServiceCard.jsx';
+import ProjectCard from '../components/ProjectCode.jsx';
+import MyPhoto from '../assets/images/me.jpg';
+import about from '../assets/images/about.png';
 
 const PortFolio = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [scrollY, setScrollY] = useState(0)
-  const [activeSection, setActiveSection] = useState('home')
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+      const sections = ['home', 'about', 'services', 'skills', 'projects', 'contact'];
+      for (let section of sections) {
+        const el = document.getElementById(section);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 120 && rect.bottom >= 120) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const scrollToSection = (sectionId) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" })
-    setIsMenuOpen(false)
-  }
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const offset = 80;
+      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: elementPosition - offset, behavior: 'smooth' });
+    }
+    setIsMenuOpen(false);
+  };
 
   const skills = {
-    frontend: [
-      { name: 'React', level: 90 },
-      { name: 'JavaScript', level: 85 },
-      { name: 'HTML/CSS', level: 80 },
-      { name: 'Tailwind CSS', level: 85 }
-    ],
-    backend: [
-      { name: 'Java', level: 90 },
-      { name: 'Spring Boot', level: 85 },
-      { name: 'Python', level: 80 },
-      { name: 'FastAPI', level: 75 }
-    ],
-    database: [
-      { name: 'PostgreSQL', level: 80 },
-      { name: 'MySQL', level: 85 },
-      { name: 'MongoDB', level: 80 }
-    ],
-    tools: [
-      { name: 'Docker', level: 75 },
-      { name: 'Git/GitHub', level: 85 },
-      { name: 'Render', level: 70 }
-    ]
-  }
+  frontend: [
+    { name: 'React.js / Next.js', level: 92 },
+    { name: 'JavaScript (ES6+)', level: 88 },
+    { name: 'Tailwind / CSS3', level: 85 },
+    { name: 'TypeScript', level: 78 }
+  ],
+  backend: [
+    { name: 'Java / Spring Boot', level: 90 },
+    { name: 'Node.js', level: 85 },
+    { name: 'RESTful APIs', level: 88 }
+    // "Python / FastAPI" removed
+  ],
+  database: [
+    { name: 'PostgreSQL', level: 84 },
+    { name: 'MySQL', level: 86 },
+    { name: 'MongoDB', level: 78 }
+    // "Prisma / ORM" removed
+  ],
+  tools: [
+    { name: 'Git / GitHub', level: 85 },
+    { name: 'Vercel / Render', level: 78 },
+    { name: 'Figma', level: 65 }
+    // "Docker" removed
+  ]
+};
 
   const projects = [
     {
       title: 'Enterprise Expense Tracker',
-      description: 'A comprehensive expense management system for enterprises with real-time tracking, reporting, and analytics capabilities.',
-      tech: ['React', 'Spring Boot', 'MySQL'],
+      description: 'Full-stack financial management platform with real-time analytics, multi-role access, and automated reporting.',
+      tech: ['React', 'Spring Boot', 'MySQL', 'JWT'],
       github: 'https://github.com/ganthantm65/expense-management-system',
-      features: ['Real-time tracking', 'Advanced reporting', 'User management', 'Analytics dashboard']
+      features: ['Real-time tracking', 'Advanced reporting', 'Admin dashboard', 'Budget alerts']
     },
     {
-      title: 'Inventory and Retail Management',
-      description: 'Modern retail billing solution with inventory management, invoice generation, and customer management features.',
-      tech: ['React', 'Spring Boot', 'PostgreSQL'],
+      title: 'Retail & Inventory System',
+      description: 'Modern retail management solution, smart invoicing, stock tracking with detailed analytics dashboard.',
+      tech: ['React', 'Spring Boot', 'PostgreSQL', 'Tailwind'],
       github: 'https://github.com/ganthantm65/inventory-retail-management',
-      features: ['Inventory management', 'Invoice generation', 'Customer database', 'Sales analytics']
+      features: ['Inventory intelligence', 'Invoice generation', 'Supplier management', 'Sales insights']
     },
     {
       title: 'AI Resume Builder',
-      description: 'Intelligent resume builder powered by AI that helps users create professional resumes with smart suggestions.',
-      tech: ['React', 'Spring Boot', 'PostgreSQL'],
+      description: 'AI-driven resume crafting tool with intelligent content suggestions, multiple templates and export.',
+      tech: ['React', 'Spring Boot', 'PostgreSQL', 'OpenAI'],
       github: 'https://github.com/ganthantm65/ai-resume-builder',
-      features: ['AI-powered suggestions', 'Multiple templates', 'Real-time preview', 'PDF export']
+      features: ['AI suggestions', 'Live preview', 'PDF generation', 'Cloud storage']
     },
     {
-      title: 'Recipe App',
-      description: 'Social recipe sharing platform where users can discover, save, and share their favorite recipes with the community.',
-      tech: ['React', 'Spring Boot', 'MySQL'],
+      title: 'Recipe Social Hub',
+      description: 'Community-driven recipe platform with sharing, saving, ingredient discovery and personalized feeds.',
+      tech: ['React', 'Spring Boot', 'MySQL', 'Redis'],
       github: 'https://github.com/ganthantm65/recipe-app',
-      features: ['Recipe discovery', 'Social sharing', 'Ingredient tracking', 'User profiles']
+      features: ['Social sharing', 'Ingredient tracker', 'User profiles', 'Search filters']
     }
-  ]
+  ];
+
+  const services = [
+    { title: "Full Stack Dev", description: "End-to-end web applications with React, Spring Boot, modern databases, and scalable APIs.", icon: <Code className="w-6 h-6" /> },
+    { title: "UI/UX Engineering", description: "Crafting responsive, elegant interfaces with focus on conversion and user delight.", icon: <Layers className="w-6 h-6" /> },
+    { title: "API & Integration", description: "RESTful API design, third-party integrations, microservices architecture.", icon: <Zap className="w-6 h-6" /> },
+    { title: "Freelance Consulting", description: "Code reviews, performance optimization, and technical mentoring.", icon: <Award className="w-6 h-6" /> }
+  ];
 
   return (
-    <div className='w-screen min-h-screen relative bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 overflow-x-hidden'>
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-3/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+    <div className="min-h-screen w-full overflow-x-hidden relative bg-gradient-to-br from-gray-50 via-white to-gray-100">
+      {/* Subtle background orbs - light theme version */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute top-0 -left-40 w-96 h-96 bg-emerald-200/30 rounded-full blur-[100px]"></div>
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-violet-200/30 rounded-full blur-[120px]"></div>
+        <div className="absolute top-1/3 left-1/2 w-80 h-80 bg-amber-100/40 rounded-full blur-3xl"></div>
       </div>
 
-      <header className={`w-full h-20 fixed flex items-center justify-between px-6 py-4 z-50 transition-all duration-300 ${
-        scrollY > 50 ? 'bg-slate-900/90 backdrop-blur-lg border-b border-white/10' : 'bg-transparent'
-      }`}>
-        <h1 className='text-white text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent'>
-          Portfolio
-        </h1>
-        
-        <ul className='hidden md:flex items-center gap-8'>
-          {['home', 'about', 'skills', 'projects'].map((section) => (
-            <li 
-              key={section}
-              onClick={() => scrollToSection(section)}
-              className='cursor-pointer text-white hover:text-cyan-400 transition-all duration-300 hover:scale-105 capitalize font-medium'
-            >
-              {section}
-            </li>
-          ))}
-          <li 
-            onClick={() => scrollToSection('contact me')}
-            className='cursor-pointer px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-full hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/30'
-          >
-            Contact
-          </li>
-        </ul>
-
-        <button 
-          className='md:hidden text-white p-2'
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-
-        {isMenuOpen && (
-          <div className='absolute top-20 left-0 w-full bg-slate-900/95 backdrop-blur-lg border-b border-white/10 md:hidden'>
-            <ul className='flex flex-col items-center py-4 gap-4'>
-              {['home', 'about', 'skills', 'projects', 'contact me'].map((section) => (
-                <li 
-                  key={section}
-                  onClick={() => scrollToSection(section)}
-                  className='cursor-pointer text-white hover:text-cyan-400 transition capitalize'
-                >
-                  {section}
+      {/* Header - Light Theme */}
+      <header className={`fixed w-full top-0 z-50 transition-all duration-500 ${scrollY > 30 ? 'bg-white/80 backdrop-blur-xl border-b border-gray-200 shadow-sm' : 'bg-transparent'}`}>
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <button onClick={() => scrollToSection('home')} className="text-2xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600 hover:opacity-90 transition">
+            Ganthan<span className="text-gray-800">.dev</span>
+          </button>
+          
+          <ul className="hidden md:flex items-center gap-7 text-sm font-medium">
+            {['Home', 'About', 'Services', 'Skills', 'Projects', 'Contact'].map((item) => {
+              const id = item.toLowerCase();
+              return (
+                <li key={item}>
+                  <button onClick={() => scrollToSection(id)} className={`relative text-gray-700 hover:text-emerald-600 transition-all duration-200 ${activeSection === id ? 'text-emerald-600 after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[2px] after:bg-emerald-500' : ''}`}>
+                    {item}
+                  </button>
                 </li>
-              ))}
-            </ul>
+              );
+            })}
+            <li>
+              <button onClick={() => scrollToSection('contact')} className="px-5 py-2 rounded-full bg-gradient-to-r from-emerald-500 to-violet-600 text-white text-sm font-semibold shadow-md hover:shadow-emerald-500/30 hover:scale-105 transition-all">
+                Hire Me
+              </button>
+            </li>
+          </ul>
+
+          <button className="md:hidden text-gray-800 p-2" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+        {isMenuOpen && (
+          <div className="md:hidden bg-white/95 backdrop-blur-xl border-b border-gray-200 py-5 px-6 flex flex-col gap-4">
+            {['Home', 'About', 'Services', 'Skills', 'Projects', 'Contact'].map((item) => (
+              <button key={item} onClick={() => scrollToSection(item.toLowerCase())} className="text-gray-700 hover:text-emerald-600 text-left py-2 border-b border-gray-100 text-base">
+                {item}
+              </button>
+            ))}
+            <button onClick={() => scrollToSection('contact')} className="mt-2 bg-gradient-to-r from-emerald-500 to-violet-600 w-full py-2 rounded-full text-white font-semibold">
+              Let's Talk
+            </button>
           </div>
         )}
       </header>
 
-      <section id='home' className='w-full min-h-screen flex flex-col items-center justify-center gap-8 px-4 relative'>
-        <div className='animate-fadeInUp'>
-          <div className='relative group'>
-            <img 
-              src={MyPhoto} 
-              className='w-48 h-48 md:w-56 md:h-56 rounded-full shadow-2xl border-4 border-cyan-400/30 hover:border-cyan-400/60 transition-all duration-300 group-hover:scale-105' 
-            />
-            <div className='absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-all duration-300'></div>
-          </div>
-        </div>
-        
-        <div className='text-center space-y-4 animate-fadeInUp delay-200'>
-          <h1 className='text-5xl md:text-6xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-400 bg-clip-text text-transparent'>
-            Ganthan T.M
-          </h1>
-          <h2 className='text-2xl md:text-3xl text-cyan-300 font-light'>
-            Aspiring Full Stack Developer
-          </h2>
-          <p className='text-white/80 text-lg max-w-2xl mx-auto leading-relaxed'>
-            Passionate about creating innovative web solutions with modern technologies and clean, maintainable code
-          </p>
-        </div>
-
-        <div className='flex flex-col sm:flex-row items-center gap-4 animate-fadeInUp delay-400'>
-          <a 
-            href='https://github.com/ganthantm65/' 
-            target='_blank' 
-            rel="noopener noreferrer" 
-            className='group px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full shadow-lg hover:shadow-cyan-500/30 hover:scale-105 transition-all duration-300 font-medium flex items-center gap-2'
-          >
-            <GithubIcon className='w-5 h-5 group-hover:rotate-12 transition-transform' />
-            Visit My Profile
-          </a>
-          <button 
-            onClick={() => scrollToSection('contact me')}
-            className='px-8 py-3 bg-transparent border-2 border-cyan-400 text-cyan-400 rounded-full hover:bg-cyan-400 hover:text-white transition-all duration-300 font-medium hover:scale-105'
-          >
-            Contact Me
-          </button>
-        </div>
-
-        <div className='absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce'>
-          <ChevronDown className='w-8 h-8 text-cyan-400' />
-        </div>
-      </section>
-
-      <section id="about" className='w-full flex justify-center px-4 py-20'>
-        <div className='w-full max-w-6xl bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-8'>
-          <h1 className='text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-400 bg-clip-text text-transparent'>
-            About Me
-          </h1>
-          <div className='flex flex-col lg:flex-row items-center gap-12'>
-            <div className='flex-shrink-0'>
-              <img 
-                src={about} 
-                alt="About" 
-                className='w-80 h-60 object-cover rounded-2xl shadow-2xl border border-white/20 hover:scale-105 transition-transform duration-300' 
-              />
+      <main className="relative z-10">
+        {/* Hero Section - Light */}
+        <section id="home" className="min-h-screen flex flex-col justify-center items-center px-6 pt-28 pb-20 text-center">
+          <div className="max-w-5xl mx-auto">
+            <div className="relative inline-block mb-6">
+              <div className="w-36 h-36 md:w-44 md:h-44 rounded-full ring-4 ring-emerald-400/40 shadow-xl overflow-hidden mx-auto bg-white">
+                <img src={MyPhoto} alt="Ganthan T.M" className="w-full h-full object-cover" />
+              </div>
+              <div className="absolute -bottom-2 -right-2 bg-emerald-500 rounded-full p-2 shadow-lg">
+                <Code className="w-4 h-4 text-white" />
+              </div>
             </div>
-            <div className='flex-1 space-y-6'>
-              <p className='text-white/90 text-lg leading-relaxed'>
-                I'm a full-stack developer with expertise in Java, Spring Boot, React, and PostgreSQL. I enjoy building secure, scalable, and user-focused web applications. My strengths lie in writing clean, maintainable code and designing efficient backend systems.
+            <div className="space-y-5 animate-[fadeUp_0.6s_ease-out]">
+              <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
+                <span className="text-gray-900">Ganthan T.M</span>
+                <span className="bg-gradient-to-r from-emerald-600 via-violet-600 to-amber-600 bg-clip-text text-transparent block text-2xl md:text-3xl mt-2">
+                  Full Stack Developer & Freelance Engineer
+                </span>
+              </h1>
+              <p className="text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">
+                I build modern, scalable web applications with clean architecture and elegant user experience. Available for freelance collaborations & full-stack projects.
               </p>
-              <p className='text-white/90 text-lg leading-relaxed'>
-                I'm passionate about learning new technologies and solving real-world problems through thoughtful engineering. Currently pursuing an engineering degree at Government College of Engineering, Tirunelveli (2023–2027).
-              </p>
-              <div className='flex flex-wrap gap-3 mt-6'>
-                {['Full Stack', 'Clean Code', 'Problem Solving', 'Team Player'].map((trait, index) => (
-                  <span 
-                    key={index}
-                    className='px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/30 text-cyan-300 rounded-full text-sm font-medium'
-                  >
-                    {trait}
-                  </span>
-                ))}
+              <div className="flex flex-wrap justify-center gap-4 pt-4">
+                <button onClick={() => scrollToSection('projects')} className="group px-7 py-3 rounded-full bg-gradient-to-r from-emerald-500 to-violet-600 text-white font-semibold shadow-md hover:shadow-emerald-500/30 flex items-center gap-2 transition-all hover:scale-[1.02]">
+                  Explore Work <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition" />
+                </button>
+                <button onClick={() => scrollToSection('contact')} className="px-7 py-3 rounded-full border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 transition-all">
+                  Contact Me
+                </button>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+          <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer" onClick={() => scrollToSection('about')}>
+            <ChevronDown className="w-7 h-7 text-emerald-500" />
+          </div>
+        </section>
 
-      <section id='skills' className='w-full flex flex-col items-center gap-12 px-4 py-20'>
-        <h1 className='text-4xl md:text-5xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-400 bg-clip-text text-transparent text-center'>
-          Skills & Expertise
-        </h1>
-        <div className='w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
-          <SkillCard heading={"Frontend"} skills={skills.frontend} icon={<Monitor className='w-6 h-6 text-cyan-500' />} />
-          <SkillCard heading={"Backend"} skills={skills.backend} icon={<Server className='w-6 h-6 text-cyan-500' />} />
-          <SkillCard heading={"Database"} skills={skills.database} icon={<Database className='w-6 h-6 text-cyan-500' />} />
-          <SkillCard heading={"Tools"} skills={skills.tools} icon={<ToolCaseIcon className='w-6 h-6 text-cyan-500' />} />
-        </div>
-      </section>
-
-      <section id='projects' className='w-full flex flex-col items-center gap-12 px-4 py-20'>
-        <h1 className='text-4xl md:text-5xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-400 bg-clip-text text-transparent text-center'>
-          Featured Projects
-        </h1>
-        <div className='w-full max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-8'>
-          {projects.map((project, index) => (
-            <div key={index} className='group bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-8 hover:bg-white/10 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/20'>
-              <div className='space-y-6'>
-                <h2 className='text-2xl text-white font-bold group-hover:text-cyan-300 transition-colors'>
-                  {project.title}
-                </h2>
-                <p className='text-white/80 text-base leading-relaxed'>
-                  {project.description}
-                </p>
-                
-                <div className='space-y-4'>
-                  <div>
-                    <p className='text-lg font-semibold text-cyan-300 mb-3'>Tech Stack</p>
-                    <div className='flex flex-wrap gap-2'>
-                      {project.tech.map((tech, i) => (
-                        <span 
-                          key={i} 
-                          className='bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/30 text-cyan-200 px-3 py-1 rounded-full text-sm font-medium'
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <p className='text-lg font-semibold text-cyan-300 mb-3'>Key Features</p>
-                    <div className='grid grid-cols-2 gap-2'>
-                      {project.features.map((feature, i) => (
-                        <div key={i} className='flex items-center gap-2'>
-                          <div className='w-2 h-2 bg-cyan-400 rounded-full'></div>
-                          <span className='text-white/70 text-sm'>{feature}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+        {/* About Section - Light */}
+        <section id="about" className="max-w-7xl mx-auto px-6 py-20 md:py-28">
+          <div className="bg-white/70 backdrop-blur-sm border border-gray-200 rounded-3xl p-8 md:p-12 shadow-sm transition-all">
+            <div className="flex flex-col lg:flex-row gap-12 items-center">
+              <div className="lg:w-2/5 relative">
+                <div className="rounded-2xl overflow-hidden shadow-md border border-gray-200">
+                  <img src={about} alt="About workspace" className="w-full object-cover h-72 lg:h-80 hover:scale-105 transition duration-500" />
                 </div>
-
-                <a 
-                  href={project.github} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className='inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full hover:scale-105 transition-all duration-300 font-medium hover:shadow-lg hover:shadow-cyan-500/30'
-                >
-                  <GithubIcon className='w-5 h-5' />
-                  View Repository
-                </a>
+                <div className="absolute -bottom-5 -right-5 bg-emerald-100 backdrop-blur rounded-xl px-4 py-2 border border-emerald-300 shadow-sm">
+                  <span className="text-emerald-700 font-mono text-sm">2+ Years Experience</span>
+                </div>
+              </div>
+              <div className="lg:w-3/5 space-y-5">
+                <div className="inline-flex px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold tracking-wide">✦ About Me</div>
+                <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Crafting code with purpose & elegance</h2>
+                <p className="text-gray-600 leading-relaxed">
+                  I'm a full-stack developer and freelance specialist passionate about delivering high-performance web applications. Expertise in Java, Spring Boot, React, and cloud-ready solutions. My goal is to turn complex requirements into intuitive, scalable digital products that businesses love.
+                </p>
+                <div className="grid grid-cols-2 gap-4 pt-2">
+                  <div className="flex items-center gap-2 text-gray-700"><User className="w-5 h-5 text-emerald-600" /> <span>B.E. CSE (2023–2027)</span></div>
+                  <div className="flex items-center gap-2 text-gray-700"><MapPin className="w-5 h-5 text-emerald-600" /> <span>Tirunelveli, India</span></div>
+                  <div className="flex items-center gap-2 text-gray-700"><Calendar className="w-5 h-5 text-emerald-600" /> <span>Available for freelance</span></div>
+                  <div className="flex items-center gap-2 text-gray-700"><Star className="w-5 h-5 text-emerald-600" /> <span>6+ open-source projects</span></div>
+                </div>
               </div>
             </div>
-          ))}
-        </div>
-      </section>
-      
-      <section id='contact me' className='w-full flex flex-col items-center gap-12 px-4 py-20'>
-        <h1 className='text-4xl md:text-5xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-400 bg-clip-text text-transparent text-center'>
-          Let's Connect
-        </h1>
-        <p className='text-white/80 text-lg text-center max-w-2xl'>
-          Ready to collaborate on exciting projects or discuss opportunities? I'd love to hear from you!
-        </p>
-        <div className='flex flex-col sm:flex-row gap-6'>
-          <a 
-            href="mailto:tmganthan@gmail.com" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className='group flex items-center gap-4 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-2xl hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/30'
-          >
-            <Mail className='w-6 h-6 group-hover:animate-pulse' />
-            <span className='font-medium'>Send Email</span>
-          </a>
-          <a 
-            href="https://www.linkedin.com/in/ganthan-t-m" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className='group flex items-center gap-4 px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30'
-          >
-            <Linkedin className='w-6 h-6 group-hover:animate-pulse' />
-            <span className='font-medium'>LinkedIn</span>
-          </a>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      <footer className='w-full bg-gradient-to-r from-slate-900 to-blue-900 border-t border-white/10 px-6 py-8'>
-        <div className='max-w-6xl mx-auto text-center'>
-          <p className='text-white/60'>
-            © {new Date().getFullYear()} Ganthan T.M — Crafted with passion and modern web technologies
-          </p>
-        </div>
+        {/* Services Section - Light */}
+        <section id="services" className="max-w-7xl mx-auto px-6 py-16">
+          <div className="text-center mb-12">
+            <span className="text-emerald-600 font-mono text-sm uppercase tracking-wider bg-emerald-50 px-4 py-1.5 rounded-full">What I Offer</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-4">Freelance Services</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto mt-3">High-quality development & tech consulting for modern businesses</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {services.map((service, idx) => (
+              <ServiceCard key={idx} title={service.title} description={service.description} icon={service.icon} />
+            ))}
+          </div>
+        </section>
+
+        {/* Skills Section - Light */}
+        <section id="skills" className="max-w-7xl mx-auto px-6 py-16">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-emerald-600 via-violet-600 to-amber-600 bg-clip-text text-transparent">Technical Proficiency</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto mt-2">Modern stack I use to build production-ready applications</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <SkillCard heading="Frontend" skills={skills.frontend} icon={<Monitor className="w-5 h-5" />} />
+            <SkillCard heading="Backend" skills={skills.backend} icon={<Server className="w-5 h-5" />} />
+            <SkillCard heading="Database" skills={skills.database} icon={<Database className="w-5 h-5" />} />
+            <SkillCard heading="Dev Tools" skills={skills.tools} icon={<Wrench className="w-5 h-5" />} />
+          </div>
+        </section>
+
+        {/* Projects Section - Light */}
+        <section id="projects" className="max-w-7xl mx-auto px-6 py-16">
+          <div className="text-center mb-12">
+            <span className="text-emerald-600 text-sm font-mono bg-emerald-50 px-4 py-1 rounded-full">Portfolio</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-3">Featured Projects</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">Real-world solutions delivering measurable value</p>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {projects.map((project, idx) => (
+              <ProjectCard key={idx} project={project} />
+            ))}
+          </div>
+        </section>
+
+        {/* Contact Section - Light */}
+        <section id="contact" className="max-w-6xl mx-auto px-6 py-20">
+          <div className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-3xl p-8 md:p-12 text-center shadow-sm">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Let's work together</h2>
+            <p className="text-gray-600 max-w-xl mx-auto mb-8">Have a project in mind or need a dedicated developer? Let's discuss how we can create something outstanding.</p>
+            <div className="flex flex-wrap justify-center gap-5">
+              <a href="mailto:tmganthan@gmail.com" className="inline-flex items-center gap-3 px-7 py-3.5 bg-gradient-to-r from-emerald-500 to-violet-600 rounded-2xl text-white font-medium shadow-md hover:shadow-emerald-500/30 transition-all hover:scale-105">
+                <Mail size={18} /> tmganthan@gmail.com
+              </a>
+              <a href="https://github.com/ganthantm65/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 px-7 py-3.5 bg-white border border-gray-300 rounded-2xl text-gray-700 font-medium hover:bg-gray-50 transition-all">
+                <GithubIcon size={18} /> GitHub
+              </a>
+              <a href="https://www.linkedin.com/in/ganthan-t-m" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 px-7 py-3.5 bg-white border border-gray-300 rounded-2xl text-gray-700 font-medium hover:bg-gray-50 transition-all">
+                <Linkedin size={18} /> LinkedIn
+              </a>
+            </div>
+            <div className="mt-12 pt-6 border-t border-gray-200 text-gray-500 text-sm flex flex-wrap justify-center gap-6">
+              <span>⚡ Open for freelance & full-time contracts</span>
+              <span>🌍 Remote / Worldwide</span>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="border-t border-gray-200 py-8 text-center text-gray-500 text-sm">
+        <div className="max-w-7xl mx-auto px-6">© {new Date().getFullYear()} Ganthan T.M — Elegant full-stack solutions. All rights reserved.</div>
       </footer>
 
-      <style jsx>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+      <style>{`
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-        
-        .animate-fadeInUp {
-          animation: fadeInUp 0.8s ease-out forwards;
-        }
-        
-        .delay-200 {
-          animation-delay: 0.2s;
-        }
-        
-        .delay-400 {
-          animation-delay: 0.4s;
-        }
-        
-        .delay-500 {
-          animation-delay: 0.5s;
-        }
-        
-        .delay-1000 {
-          animation-delay: 1s;
-        }
+        .animate-fadeUp { animation: fadeUp 0.6s ease-out forwards; }
       `}</style>
     </div>
-  )
-}
+  );
+};
 
-export default PortFolio
+export default PortFolio;
